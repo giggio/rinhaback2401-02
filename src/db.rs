@@ -1,5 +1,4 @@
 use crate::model::*;
-use anyhow::Result;
 use chrono::Utc;
 use may_postgres::{self, Client, Statement};
 use std::sync::Arc;
