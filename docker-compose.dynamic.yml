@@ -5,8 +5,8 @@ services:
   api1: &api
     build:
       context: .
-      dockerfile: Dockerfile
-    image: giggio/rinhabackend-2401:rust
+      dockerfile: Dockerfile.dynamic
+    image: giggio/rinhabackend-2401:rust-dynamic
     hostname: api1
     container_name: rinhaapi1
     environment:
