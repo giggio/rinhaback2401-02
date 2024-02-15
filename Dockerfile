@@ -1,14 +1,15 @@
-FROM rust:1.76-buster
-# FROM rust:1.76-alpine3.18
+FROM rust:1.76-bookworm as build
 
-RUN apt-get update -yqq && apt-get install -yqq cmake g++
-
-COPY ./ /app
 WORKDIR /app
+RUN apt-get update -yqq && apt-get install -yqq cmake g++
+RUN mkdir src && echo 'fn main() { println!("Build failed"); std::process::exit(1); }' > src/main.rs
+COPY Cargo.toml Cargo.lock ./
+RUN cargo build --release
+COPY . .
+RUN touch src/main.rs && cargo build --release
 
-RUN cargo clean
-RUN RUSTFLAGS="-C target-cpu=native" cargo build --release
-
-EXPOSE 8080
-
-ENTRYPOINT [ "/app/target/release/rinhaback2401" ]
+FROM debian:bookworm-slim
+WORKDIR /app
+EXPOSE 9999
+COPY --from=build /app/target/release/rinhaback2401 /app
+ENTRYPOINT [ "/app/rinhaback2401" ]

@@ -139,7 +139,11 @@ fn main() {
     may::config()
         .set_pool_capacity(1000)
         .set_stack_size(0x10000);
-    let db_pool = match PgConnectionPool::new("postgres://rinha:rinha@localhost:5432/rinha", 35) {
+    lazy_static! {
+        static ref CONNECTION_STRING: String = std::env::var("CONNECTION_STRING")
+            .unwrap_or("postgres://rinha:rinha@localhost:5432/rinha".to_owned());
+    }
+    let db_pool = match PgConnectionPool::new(&CONNECTION_STRING, 35) {
         Ok(db_pool) => db_pool,
         Err(e) => {
             println!("Erro ao criar pool de conexões: {:?}", e);
