@@ -143,7 +143,15 @@ fn main() {
         static ref CONNECTION_STRING: String = std::env::var("CONNECTION_STRING")
             .unwrap_or("postgres://rinha:rinha@localhost:5432/rinha".to_owned());
     }
-    let db_pool = match PgConnectionPool::new(&CONNECTION_STRING, 35) {
+    let parallelism: usize = std::env::var("PARALLELISM")
+        .unwrap_or("35".to_owned())
+        .parse()
+        .unwrap_or(35);
+    println!(
+        "Connecting to database with connection string '{}', using {} parallalelism...",
+        *CONNECTION_STRING, parallelism
+    );
+    let db_pool = match PgConnectionPool::new(&CONNECTION_STRING, parallelism) {
         Ok(db_pool) => db_pool,
         Err(e) => {
             println!("Erro ao criar pool de conexões: {:?}", e);

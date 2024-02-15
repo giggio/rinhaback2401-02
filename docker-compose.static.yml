@@ -11,6 +11,7 @@ services:
     container_name: rinhaapi1
     environment:
       - CONNECTION_STRING=postgres://rinha:rinha@db:5432/rinha
+      - PARALLELISM=40
     depends_on:
       db:
         condition: service_healthy
@@ -21,8 +22,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.3'
-          memory: '80MB'
+          cpus: '0.2'
+          memory: '40MB'
     networks:
       - app-network
 
@@ -47,7 +48,7 @@ services:
       resources:
         limits:
           cpus: '0.4'
-          memory: '134MB'
+          memory: '160MB'
 
   db:
     image: postgres:latest
@@ -69,8 +70,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
-          memory: '256MB'
+          cpus: '0.7'
+          memory: '310MB'
     networks:
       - app-network
     healthcheck:
