@@ -5,7 +5,7 @@ services:
   api1: &api
     build:
       context: .
-      dockerfile: Dockerfile.static
+      dockerfile: Dockerfile
     image: giggio/rinhabackend-2401:rust-static
     hostname: api1
     container_name: rinhaapi1
