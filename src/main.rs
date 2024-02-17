@@ -135,7 +135,11 @@ impl HttpServiceFactory for HttpServer {
 }
 
 fn main() {
-    println!("Starting http server: 127.0.0.1:9999...");
+    let port: usize = std::env::var("PORT")
+        .unwrap_or("9999".to_owned())
+        .parse()
+        .unwrap_or(9999);
+    println!("Starting http server: 0.0.0.0:{port}...");
     may::config()
         .set_pool_capacity(1000)
         .set_stack_size(0x10000);
@@ -160,7 +164,7 @@ fn main() {
     };
     println!("Connected to database.");
     let server = HttpServer { db_pool };
-    let server = match server.start("0.0.0.0:9999") {
+    let server = match server.start(format!("0.0.0.0:{port}")) {
         Ok(server) => server,
         Err(e) => {
             println!("Error starting server: {:?}", e);
