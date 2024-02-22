@@ -11,7 +11,7 @@ services:
     network_mode: host
     environment: &env
       CONNECTION_STRING: postgres://rinha:rinha@localhost:6432/rinha
-      PARALLELISM: 20
+      PARALLELISM: 10
       PORT: 9997
     depends_on:
       - bouncer
@@ -83,9 +83,7 @@ services:
     container_name: rinhapgbouncer
     network_mode: host
     environment:
-      # PGB_DATABASES: rinha = host=localhost port=5432 pool_mode=session pool_size=45
-      # PGB_DATABASES: rinha = host=localhost port=5432 pool_mode=statement pool_size=45
-      PGB_DATABASES: rinha = host=localhost port=5432 pool_mode=statement pool_size=45
+      PGB_DATABASES: rinha = host=localhost port=5432 pool_mode=statement pool_size=30
       PGB_ADMIN_USERS: rinha
       PGB_ADMIN_PASSWORDS: rinha
     deploy:
