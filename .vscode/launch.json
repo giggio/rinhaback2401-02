@@ -14,7 +14,12 @@
             "program": "${workspaceFolder}/target/debug/rinhaback2401",
             "args": [],
             "cwd": "${workspaceFolder}",
-            "preLaunchTask": "rust: cargo build"
+            "preLaunchTask": "rust: cargo build",
+            "env": {
+                "RUST_BACKTRACE": "1",
+                "CONNECTION_STRING": "postgres://rinha:rinha@localhost:6432/rinha",
+                "PARALLELISM": "2"
+            }
         }
     ]
 }
